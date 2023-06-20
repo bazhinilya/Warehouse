@@ -19,7 +19,7 @@
                 <TabItem Header="All">
                     <Grid>
                         <GroupBox>
-                            <DataGrid ItemsSource="{Binding JoinedProducts}"
+                            <DataGrid ItemsSource="{Binding Products}"
                                       SelectedItem="{Binding SelectedProduct}"/>
                         </GroupBox>
                         <StackPanel VerticalAlignment="Bottom">
@@ -36,7 +36,8 @@
                 <TabItem Header="Accept">
                     <Grid>
                         <GroupBox>
-                            <DataGrid ItemsSource="{Binding ProductsAccept}"/>
+                            <DataGrid ItemsSource="{Binding ProductWithStatusAccept}"
+                                      SelectedItem="{Binding SelectedProduct}"/>
                         </GroupBox>
                         <StackPanel VerticalAlignment="Bottom">
                             <Button Command="{Binding AppProductCommand}"
@@ -52,7 +53,9 @@
                 <TabItem Header="ToWarehouse">
                     <Grid>
                         <GroupBox>
-                            <DataGrid ItemsSource="{Binding ProductsToWarehouse}"/>
+
+                            <DataGrid ItemsSource="{Binding ProductWithStatusToWarehouse}"
+                                      SelectedItem="{Binding SelectedProduct}"/>
                         </GroupBox>
                         <StackPanel VerticalAlignment="Bottom">
                             <Button Command="{Binding AppProductCommand}"
@@ -68,7 +71,8 @@
                 <TabItem Header="Sold">
                     <Grid>
                         <GroupBox>
-                            <DataGrid ItemsSource="{Binding ProductsSold}"/>
+                            <DataGrid ItemsSource="{Binding ProductWithStatusSold}"
+                                      SelectedItem="{Binding SelectedProduct}"/>
                         </GroupBox>
                         <StackPanel VerticalAlignment="Bottom">
                             <Button Command="{Binding AppProductCommand}"

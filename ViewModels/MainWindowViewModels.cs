@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using PropertyChanged;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -6,24 +7,24 @@ using System.Windows.Input;
 using Warehouse.Context;
 using Warehouse.Models;
 using Warehouse.Models.Entities;
+using Warehouse.Models.Enums;
 using Warehouse.Models.JoinedEntities;
 using Warehouse.ViewModels.Commands;
 
 namespace Warehouse.ViewModels
 {
+    [AddINotifyPropertyChangedInterface]
     public class MainWindowViewModels
     {
         private readonly WarehouseContext _context = new WarehouseContext();
-        public ObservableCollection<ProductProductPriceProductStatus> JoinedProducts { get; }
+
+        public ObservableCollection<ProductProductPriceProductStatus> Products { get; set; }
+        public ObservableCollection<ProductProductPriceProductStatus> ProductWithStatusAccept { get; set; }
+        public ObservableCollection<ProductProductPriceProductStatus> ProductWithStatusToWarehouse { get; set; }
+        public ObservableCollection<ProductProductPriceProductStatus> ProductWithStatusSold { get; set; }
         public ProductProductPriceProductStatus SelectedProduct { get; set; }
 
-        public MainWindowViewModels()
-        {
-            var products = _context.Products;
-            var productStasuses = _context.ProductStatuses;
-            var productPrices = _context.ProductPrices;
-            JoinedProducts = JoinTables(products, productPrices, productStasuses);
-        }
+        public MainWindowViewModels() => InitializeDataBase();
 
         public ICommand AppProductCommand
         {
@@ -39,8 +40,18 @@ namespace Warehouse.ViewModels
                         ProductStatusesId = _context.ProductStatuses.FirstOrDefault(p => p.Statuses == SelectedProduct.Status).Id,
                     });
                     _context.SaveChanges();
+                    InitializeDataBase();
                 });
             }
+        }
+
+        private void InitializeDataBase()
+        {
+            var products = JoinTables(_context.Products, _context.ProductPrices, _context.ProductStatuses);
+            Products = products;
+            ProductWithStatusAccept = new ObservableCollection<ProductProductPriceProductStatus>(products.Where(p => p.Status == Status.Accept));
+            ProductWithStatusToWarehouse = new ObservableCollection<ProductProductPriceProductStatus>(products.Where(p => p.Status == Status.ToWarehouse));
+            ProductWithStatusSold = new ObservableCollection<ProductProductPriceProductStatus>(products.Where(p => p.Status == Status.Sold));
         }
 
         private ObservableCollection<ProductProductPriceProductStatus> JoinTables(IEnumerable<Product> products,
