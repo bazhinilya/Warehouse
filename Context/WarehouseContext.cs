@@ -6,7 +6,7 @@ namespace Warehouse.Context
 {
     public class WarehouseContext : DbContext
     {
-        public WarehouseContext() : base("DefaultConnection") { }
+        public WarehouseContext() : base("DefaultConnection") => Database.CreateIfNotExists();
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductStatus> ProductStatuses { get; set; }
         public DbSet<ProductPrice> ProductPrices { get; set; }

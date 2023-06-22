@@ -23,7 +23,7 @@
                                       SelectedItem="{Binding SelectedProduct}"/>
                         </GroupBox>
                         <StackPanel VerticalAlignment="Bottom">
-                            <Button Command="{Binding AppProductCommand}"
+                            <Button Command="{Binding AddOrUpdateProductCommand}"
                                 Content="Save"
                                 Width="80"
                                 HorizontalAlignment="Left"
@@ -40,7 +40,7 @@
                                       SelectedItem="{Binding SelectedProduct}"/>
                         </GroupBox>
                         <StackPanel VerticalAlignment="Bottom">
-                            <Button Command="{Binding AppProductCommand}"
+                            <Button Command="{Binding AddOrUpdateProductCommand}"
                                 Content="Save"
                                 Width="80"
                                 HorizontalAlignment="Left"
@@ -58,7 +58,7 @@
                                       SelectedItem="{Binding SelectedProduct}"/>
                         </GroupBox>
                         <StackPanel VerticalAlignment="Bottom">
-                            <Button Command="{Binding AppProductCommand}"
+                            <Button Command="{Binding AddOrUpdateProductCommand}"
                                 Content="Save"
                                 Width="80"
                                 HorizontalAlignment="Left"
@@ -75,7 +75,7 @@
                                       SelectedItem="{Binding SelectedProduct}"/>
                         </GroupBox>
                         <StackPanel VerticalAlignment="Bottom">
-                            <Button Command="{Binding AppProductCommand}"
+                            <Button Command="{Binding AddOrUpdateProductCommand}"
                                 Content="Save"
                                 Width="80"
                                 HorizontalAlignment="Left"
