@@ -36,11 +36,12 @@ namespace Warehouse.ViewModels
                         using (var context = new WarehouseContext())
                         {
                             var productFromDb = context.Products.FirstOrDefault(p => p.Id == SelectedProduct.Id);
+
                             context.Products.AddOrUpdate(new Product
                             {
                                 Id = SelectedProduct.Id,
                                 Name = SelectedProduct.Name,
-                                ProductPricesId = context.ProductPrices.FirstOrDefault(p => p.Price == SelectedProduct.Price).Id,
+                                ProductPricesId = GetProductPrice(context),
                                 ProductStatusesId = context.ProductStatuses.FirstOrDefault(p => p.Statuses == SelectedProduct.Status).Id,
                                 DateAddProduct = SelectedProduct.DateAddProduct == null ? DateTime.Now : productFromDb.DateAddProduct,
                                 DateAccept = productFromDb?.DateAccept == null && SelectedProduct.Status == Status.Accept ? DateTime.Now : productFromDb?.DateAccept,
@@ -65,6 +66,21 @@ namespace Warehouse.ViewModels
                 ProductWithStatusToWarehouse = new ObservableCollection<ProductProductPriceProductStatus>(products.Where(p => p.Status == Status.ToWarehouse));
                 ProductWithStatusSold = new ObservableCollection<ProductProductPriceProductStatus>(products.Where(p => p.Status == Status.Sold));
             }
+        }
+
+        private int GetProductPrice(WarehouseContext context)
+        {
+            var productPriceFromDb = context.ProductPrices.FirstOrDefault(p => p.Price == SelectedProduct.Price);
+            if (productPriceFromDb == null)
+            {
+                context.ProductPrices.Add(new ProductPrice
+                {
+                    Price = SelectedProduct.Price,
+                });
+                context.SaveChanges();
+                return context.ProductPrices.FirstOrDefault(p => p.Price == SelectedProduct.Price).Id;
+            }
+            return productPriceFromDb.Id;
         }
 
         private ObservableCollection<ProductProductPriceProductStatus> JoinTables(IEnumerable<Product> products,
